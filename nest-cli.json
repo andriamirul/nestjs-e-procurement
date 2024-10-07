@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/e-procurement/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/e-procurement/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/e-procurement",
+  "projects": {
+    "e-procurement": {
+      "type": "application",
+      "root": "apps/e-procurement",
+      "entryFile": "main",
+      "sourceRoot": "apps/e-procurement/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/e-procurement/tsconfig.app.json"
+      }
+    },
+    "vendor": {
+      "type": "application",
+      "root": "apps/vendor",
+      "entryFile": "main",
+      "sourceRoot": "apps/vendor/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/vendor/tsconfig.app.json"
+      }
+    },
+    "admin": {
+      "type": "application",
+      "root": "apps/admin",
+      "entryFile": "main",
+      "sourceRoot": "apps/admin/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/admin/tsconfig.app.json"
+      }
+    },
+    "customer": {
+      "type": "application",
+      "root": "apps/customer",
+      "entryFile": "main",
+      "sourceRoot": "apps/customer/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/customer/tsconfig.app.json"
+      }
+    },
+    "libs": {
+      "type": "library",
+      "root": "libs",
+      "entryFile": "index",
+      "sourceRoot": "libs/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/tsconfig.lib.json"
+      }
+    }
+  }
+}
