@@ -17,6 +17,19 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {}
-  }
+    "paths": {
+      "@libs": ["libs/src"],
+      "@libs/*": ["libs/src/*"],
+      "@vendor": ["apps/vendor/src"],
+      "@vendor/*": ["apps/vendor/src/*"],
+      "@admin": ["apps/admin/src"],
+      "@admin/*": ["apps/admin/src/*"],
+      "@customer": ["apps/customer/src"],
+      "@customer/*": ["apps/customer/src/*"]
+    }
+  },
+  "watchOptions": {
+    "watchFile": "fixedpollinginterval"
+  },
+  "include": ["apps/**/*", "libs/**/*"]
 }
