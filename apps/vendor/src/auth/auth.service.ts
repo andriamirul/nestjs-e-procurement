@@ -1,5 +1,6 @@
 import { VendorStatus } from '@libs/clients/enum/vendor-status.enum';
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -69,5 +70,17 @@ export class AuthService {
     const vendor = await this.vendorRepository.findOne({ where: { id } });
     if (isEmpty(vendor)) throw new NotFoundException(`vendor not found`);
     return vendor;
+  }
+
+  async approve(id: number): Promise<boolean> {
+    const vendor = await this.findOneOrThrow(id);
+    if (vendor.status === VendorStatus.APPROVED)
+      throw new BadRequestException(`vendor already approved`);
+
+    await this.vendorRepository.update(id, {
+      status: VendorStatus.APPROVED,
+    });
+
+    return true;
   }
 }
