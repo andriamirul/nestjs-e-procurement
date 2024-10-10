@@ -5,12 +5,6 @@ Basic version of the E-Procurement system with the following :
 1. Vendor Registration and Approval
 2. Product Catalog Management
 
-## Project setup
-
-```bash
-$ pnpm install
-```
-
 ## Compile and run the project
 
 ```bash
