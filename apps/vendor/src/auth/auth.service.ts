@@ -1,6 +1,6 @@
 import { VendorStatus } from '@libs/clients/enum/vendor-status.enum';
-import { VendorPaginateRequest } from '@libs/clients/vendor/dto/vendor-paginate-request.dto';
-import { VendorPaginateResponse } from '@libs/clients/vendor/dto/vendor-paginate-response.dto';
+import { VendorPaginateRequest } from '@libs/clients/vendor/dto/vendor/vendor-paginate-request.dto';
+import { VendorPaginateResponse } from '@libs/clients/vendor/dto/vendor/vendor-paginate-response.dto';
 import {
   BadRequestException,
   Injectable,
@@ -118,13 +118,14 @@ export class AuthService {
     }
 
     const [data, total] = await this.vendorRepository.findAndCount(options);
-    return {
+    return new VendorPaginateResponse({
       data: data,
       total: total,
-    };
+    });
   }
 
   async remove(id: number): Promise<void> {
+    await this.findOneOrThrow(id);
     await this.vendorRepository.delete(id);
   }
 }

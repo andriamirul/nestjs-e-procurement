@@ -1,34 +1,64 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { IdParamDto } from '@libs';
+import { ProductPaginateRequest } from '@libs/clients/vendor/dto/product/product-paginate-request.dto';
+import { ProductPaginateResponse } from '@libs/clients/vendor/dto/product/product-paginate-response.dto';
+import { ProductResponse } from '@libs/clients/vendor/dto/product/product-response.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import { Vendor } from '@vendor/auth/entities/vendor.entity';
+import { Auth } from '@vendor/auth/guards/auth.decorator';
+import { CurrentUser } from '@vendor/common/decorator/current-user.decorator';
+import { CreateProductRequest } from './dto/create-product-request.dto';
+import { UpdateProductRequest } from './dto/update-product-request.dto';
 import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 
+@Auth()
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  create(
+    @Body() createProductDto: CreateProductRequest,
+    @CurrentUser() currentUser: Vendor,
+  ) {
+    return this.productService.create(createProductDto, currentUser);
   }
 
   @Get()
-  findAll() {
-    return this.productService.findAll();
+  paginate(
+    @Query() req: ProductPaginateRequest,
+  ): Promise<ProductPaginateResponse> {
+    return this.productService.paginate(req);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productService.findOne(+id);
+  async findOne(@Param() req: IdParamDto): Promise<ProductResponse> {
+    return new ProductResponse(
+      await this.productService.findOneOrThrow(req.id),
+    );
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  @Put(':id')
+  async update(
+    @Param() req: IdParamDto,
+    @Body() product: UpdateProductRequest,
+    @CurrentUser() currentUser: Vendor,
+  ): Promise<ProductResponse> {
+    return new ProductResponse(
+      await this.productService.update(req.id, product, currentUser),
+    );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productService.remove(+id);
+  remove(@Param() req: IdParamDto): Promise<void> {
+    return this.productService.remove(req.id);
   }
 }

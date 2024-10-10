@@ -1,11 +1,11 @@
+import { ClientName } from '@libs/clients/enum/client-name.enum';
+import { VendorMessagePattern } from '@libs/clients/enum/vendor-message-pattern.enum';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
-import { ClientName } from '../enum/client-name.enum';
-import { VendorMessagePattern } from '../enum/vendor-message-pattern.enum';
-import { VendorPaginateRequest } from './dto/vendor-paginate-request.dto';
-import { VendorPaginateResponse } from './dto/vendor-paginate-response.dto';
-import { VendorResponse } from './dto/vendor-response.dto';
+import { VendorPaginateRequest } from '../dto/vendor/vendor-paginate-request.dto';
+import { VendorPaginateResponse } from '../dto/vendor/vendor-paginate-response.dto';
+import { VendorResponse } from '../dto/vendor/vendor-response.dto';
 
 @Injectable()
 export class VendorClientService {

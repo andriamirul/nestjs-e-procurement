@@ -1,15 +1,14 @@
-import { VendorPaginateRequest } from '@libs/clients/vendor/dto/vendor-paginate-request.dto';
-import { VendorPaginateResponse } from '@libs/clients/vendor/dto/vendor-paginate-response.dto';
-import { VendorResponse } from '@libs/clients/vendor/dto/vendor-response.dto';
-import { VendorClientService } from '@libs/clients/vendor/vendor-client.service';
+import { VendorPaginateRequest } from '@libs/clients/vendor/dto/vendor/vendor-paginate-request.dto';
+import { VendorPaginateResponse } from '@libs/clients/vendor/dto/vendor/vendor-paginate-response.dto';
+import { VendorResponse } from '@libs/clients/vendor/dto/vendor/vendor-response.dto';
+import { VendorClientService } from '@libs/clients/vendor/services/vendor-client.service';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class VendorService {
   constructor(private readonly vendorClientService: VendorClientService) {}
-  async approve(id: number): Promise<string> {
+  async approve(id: number): Promise<void> {
     await this.vendorClientService.approve(id);
-    return `vendor approved`;
   }
 
   async paginate(req: VendorPaginateRequest): Promise<VendorPaginateResponse> {

@@ -1,7 +1,9 @@
+import { Product } from '@vendor/product/entities/product.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -25,4 +27,7 @@ export class Vendor {
 
   @Column()
   status: string;
+
+  @OneToMany(() => Product, (product) => product.vendor)
+  products: Product[];
 }
