@@ -1,4 +1,6 @@
 import { VendorStatus } from '@libs/clients/enum/vendor-status.enum';
+import { VendorPaginateRequest } from '@libs/clients/vendor/dto/vendor-paginate-request.dto';
+import { VendorPaginateResponse } from '@libs/clients/vendor/dto/vendor-paginate-response.dto';
 import {
   BadRequestException,
   Injectable,
@@ -8,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { isEmpty, isNotEmpty } from 'class-validator';
+import { FindManyOptions, ILike } from 'typeorm';
 import { VendorAccessToken } from './dto/vendor-access-token.dto';
 import { VendorLoginRequest } from './dto/vendor-login-request.dto';
 import { VendorLoginResponse } from './dto/vendor-login-response.dto';
@@ -82,5 +85,46 @@ export class AuthService {
     });
 
     return true;
+  }
+
+  async paginate(req: VendorPaginateRequest): Promise<VendorPaginateResponse> {
+    const skip = (req.page - 1) * req.size;
+    const options: FindManyOptions<Vendor> = {
+      skip,
+      take: req.size,
+      order: {},
+    };
+
+    if (isNotEmpty(req.sortBy)) {
+      req.sortBy.forEach((sortField, index) => {
+        const [relation, field] = sortField.toString().split('.');
+        if (field) {
+          options.order[relation][field] = req.orderBy[index] ?? 'ASC';
+          return;
+        }
+        options.order[sortField] = req.orderBy[index] ?? 'ASC';
+      });
+    }
+
+    if (isNotEmpty(req.filter)) {
+      options.where = [
+        {
+          name: ILike(`%${req.filter.toLowerCase()}%`),
+        },
+        {
+          email: ILike(`%${req.filter.toLowerCase()}%`),
+        },
+      ];
+    }
+
+    const [data, total] = await this.vendorRepository.findAndCount(options);
+    return {
+      data: data,
+      total: total,
+    };
+  }
+
+  async remove(id: number): Promise<void> {
+    await this.vendorRepository.delete(id);
   }
 }

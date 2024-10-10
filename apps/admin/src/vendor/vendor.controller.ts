@@ -1,34 +1,37 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Auth } from '@admin/auth/guards/auth.decorator';
+import { IdParamDto } from '@libs';
+import { VendorPaginateRequest } from '@libs/clients/vendor/dto/vendor-paginate-request.dto';
+import { VendorPaginateResponse } from '@libs/clients/vendor/dto/vendor-paginate-response.dto';
+import { VendorResponse } from '@libs/clients/vendor/dto/vendor-response.dto';
+import { Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { VendorService } from './vendor.service';
-import { CreateVendorDto } from './dto/create-vendor.dto';
-import { UpdateVendorDto } from './dto/update-vendor.dto';
 
 @Controller('vendor')
 export class VendorController {
   constructor(private readonly vendorService: VendorService) {}
-
-  @Post()
-  create(@Body() createVendorDto: CreateVendorDto) {
-    return this.vendorService.create(createVendorDto);
-  }
-
+  @Auth()
   @Get()
-  findAll() {
-    return this.vendorService.findAll();
+  paginate(
+    @Query() req: VendorPaginateRequest,
+  ): Promise<VendorPaginateResponse> {
+    return this.vendorService.paginate(req);
   }
 
+  @Auth()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.vendorService.findOne(+id);
+  findOne(@Param() req: IdParamDto): Promise<VendorResponse> {
+    return this.vendorService.findOne(req.id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateVendorDto: UpdateVendorDto) {
-    return this.vendorService.update(+id, updateVendorDto);
-  }
-
+  @Auth()
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.vendorService.remove(+id);
+  remove(@Param() req: IdParamDto): Promise<VendorResponse> {
+    return this.vendorService.remove(req.id);
+  }
+
+  @Auth()
+  @Post('approve/:id')
+  approve(@Param() req: IdParamDto) {
+    return this.vendorService.approve(req.id);
   }
 }
