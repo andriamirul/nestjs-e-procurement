@@ -83,3 +83,38 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+## Module Graph Admin Service
+
+This section provides a visual representation of the module dependencies within the NestJS application. The graph is generated using Mermaid syntax and helps to understand how different modules in the application are interconnected.
+
+```mermaid
+graph LR
+  Admin-->Infrastructure
+  Infrastructure-->Config
+  Infrastructure-->Database
+  Database-->Config
+  Admin-->Auth
+  Auth-->Jwt
+  Jwt-->Config
+  Auth-->Config
+  VendorClient-->Clients
+  Clients-->Config
+  VendorClient-->Config
+  Admin-->Config
+```
+
+## Module Graph Vendor Service
+
+This section provides a visual representation of the module dependencies within the NestJS application. The graph is generated using Mermaid syntax and helps to understand how different modules in the application are interconnected.
+
+```mermaid
+graph LR
+  Infrastructure-->Config
+  Infrastructure-->Database
+  Database-->Config
+  Auth-->Jwt
+  Jwt-->Config
+  Auth-->Config
+  Product-->Config
+```

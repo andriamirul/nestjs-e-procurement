@@ -74,14 +74,14 @@ export class InfrastructureModule implements OnModuleInit {
     // CREATE MICROSERVICE
     const service = this.configService.getOrThrow<Config['service']>('service');
     console.log(
-      `building microservice in  ${service.customer.host}:${service.customer.port}`,
+      `building microservice in  ${service.admin.host}:${service.admin.port}`,
     );
     this.app.connectMicroservice<MicroserviceOptions>(
       {
         transport: Transport.TCP,
         options: {
-          host: service.customer.host,
-          port: Number(service.customer.port),
+          host: service.admin.host,
+          port: Number(service.admin.port),
         },
       },
       {

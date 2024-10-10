@@ -4,8 +4,17 @@
   "sourceRoot": "apps/e-procurement/src",
   "compilerOptions": {
     "deleteOutDir": true,
-    "webpack": true,
-    "tsConfigPath": "apps/e-procurement/tsconfig.app.json"
+    "webpack": false,
+    "tsConfigPath": "apps/e-procurement/tsconfig.app.json",
+    "plugins": [
+      {
+        "name": "@nestjs/swagger",
+        "options": {
+          "classValidatorShim": true,
+          "introspectComments": true
+        }
+      }
+    ]
   },
   "monorepo": true,
   "root": "apps/e-procurement",

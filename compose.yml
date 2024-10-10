@@ -1,0 +1,32 @@
+version: '3'
+
+name: 'e-procurement-service'
+
+services:
+  service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - '3000:3000'
+      - '3001:3001'
+      - '3002:3002'
+    volumes:
+      - .:/app
+
+  mysql:
+    image: mysql:8.4
+    restart: always
+    volumes:
+      - ./tmp/mysql_data:/var/lib/mysql
+      - ./docker/mysql/initializer:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: kb23ufg294vbojnsl
+    ports:
+      - '5506:3306'
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 10s
+      timeout: 5s
+      retries: 3

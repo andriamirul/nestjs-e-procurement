@@ -12,6 +12,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Vendor } from '@vendor/auth/entities/vendor.entity';
 import { Auth } from '@vendor/auth/guards/auth.decorator';
 import { CurrentUser } from '@vendor/common/decorator/current-user.decorator';
@@ -20,6 +21,8 @@ import { UpdateProductRequest } from './dto/update-product-request.dto';
 import { ProductService } from './product.service';
 
 @Auth()
+@ApiTags(`Product`)
+@ApiBearerAuth()
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
