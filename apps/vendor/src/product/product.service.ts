@@ -24,7 +24,11 @@ export class ProductService {
       vendorId: currentUser.id,
     });
 
-    return new ProductResponse(product);
+    return new ProductResponse({
+      id: product.id,
+      name: product.name,
+      stock: product.stock,
+    });
   }
 
   async paginate(

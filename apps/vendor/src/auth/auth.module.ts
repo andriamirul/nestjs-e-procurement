@@ -5,6 +5,7 @@ import { Config } from '@vendor/_infrastructure/config/config.schema';
 import { AuthClientController } from './auth-client.controller';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { JwtStrategy } from './guards/jwt.strategy';
 import { VendorRepository } from './repositories/vendor.repository';
 
 @Module({
@@ -23,7 +24,7 @@ import { VendorRepository } from './repositories/vendor.repository';
     }),
   ],
   controllers: [AuthController, AuthClientController],
-  providers: [AuthService, VendorRepository],
+  providers: [AuthService, VendorRepository, JwtStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

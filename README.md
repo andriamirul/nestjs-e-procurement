@@ -90,18 +90,17 @@ This section provides a visual representation of the module dependencies within 
 
 ```mermaid
 graph LR
-  Admin-->Infrastructure
+  Customer-->Infrastructure
   Infrastructure-->Config
   Infrastructure-->Database
   Database-->Config
-  Admin-->Auth
-  Auth-->Jwt
-  Jwt-->Config
-  Auth-->Config
+  Customer-->Product
+  Product-->VendorClient
   VendorClient-->Clients
   Clients-->Config
   VendorClient-->Config
-  Admin-->Config
+  Product-->Config
+  Customer-->Config
 ```
 
 ## Module Graph Vendor Service
