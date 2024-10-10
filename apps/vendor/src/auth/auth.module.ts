@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Config } from '@vendor/_infrastructure/config/config.schema';
-import { VendorModule } from '@vendor/vendor.module';
+import { AuthClientController } from './auth-client.controller';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { VendorRepository } from './repositories/vendor.repository';
 
 @Module({
   imports: [
-    VendorModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService<Config>) => {
@@ -22,7 +22,8 @@ import { AuthService } from './auth.service';
       },
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService],
+  controllers: [AuthController, AuthClientController],
+  providers: [AuthService, VendorRepository],
+  exports: [AuthService],
 })
 export class AuthModule {}

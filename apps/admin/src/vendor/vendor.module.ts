@@ -7,5 +7,6 @@ import { VendorService } from './vendor.service';
   imports: [VendorClientModule],
   controllers: [VendorController],
   providers: [VendorService],
+  exports: [VendorService],
 })
 export class VendorModule {}
